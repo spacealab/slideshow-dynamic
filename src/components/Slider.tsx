@@ -2,34 +2,39 @@
 
 import React, { useState } from 'react';
 
+// Assuming you have images in the public/images folder and their names are known
+const imagePaths = [
+  '/public/images/image1.jpg', // Example path for image1.jpg
+  '/public/images/image2.jpg', // Example path for image2.jpg
+  '/public/images/image3.jpg', // Example path for image3.jpg
+  '/public/images/image4.jpg', // Example path for image4.jpg
+];
+
 const Slider: React.FC = () => {
-  const [imageIndex, setImageIndex] = useState<number>(0);
-  const [imageUrls, setImageUrls] = useState<string[]>(['https://picsum.photos/510/310']);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const fetchNewImage = () => {
-    const newUrl = `https://picsum.photos/510/310?random=${Math.random()}`;
-    setImageUrls(prevUrls => [...prevUrls, newUrl]);
-    setImageIndex(prevIndex => prevIndex + 1);
+    setCurrentIndex((currentIndex + 1) % imagePaths.length);
   };
 
   const showPreviousImage = () => {
-    setImageIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : 0));
+    setCurrentIndex((currentIndex - 1 + imagePaths.length) % imagePaths.length);
   };
 
   return (
-    <div className="flex flex-col p-4">
-      <img src={imageUrls[imageIndex]} alt="Random" className="shadow-lg rounded max-w-full h-auto align-middle border-none" />
-      <div className="flex mt-4 justify-between">
+    <div className="flex flex-col items-center justify-center p-4">
+      <img src={imagePaths[currentIndex]} alt="Random" className="shadow-lg rounded max-w-full h-auto align-middle border-none" />
+      <div className="flex mt-4">
         <button
           onClick={showPreviousImage}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 w-[100px] rounded"
-          disabled={imageIndex === 0}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-l"
+          disabled={currentIndex === 0}
         >
           Previous
         </button>
         <button
           onClick={fetchNewImage}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 w-[100px] rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
         >
           Next
         </button>
@@ -39,4 +44,5 @@ const Slider: React.FC = () => {
 };
 
 export default Slider;
+
 
