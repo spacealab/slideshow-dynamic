@@ -16,6 +16,10 @@
   }
 }
 
+image{
+  height: 310px;
+  width: 510px;
+}
 
 @layer utilities {
   .text-balance {
